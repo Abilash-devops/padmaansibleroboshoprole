@@ -1,2 +1,26 @@
 ---
 # tasks file for cart
+- name: Install NodeJS
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: Install app-setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: download the dependencies.
+  ansible.builtin.command: npm install 
+  args:
+    chdir: /app
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: copy-service
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup

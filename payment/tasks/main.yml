@@ -1,2 +1,26 @@
 ---
 # tasks file for payment
+- name: Install python
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: python
+
+- name: Install app-setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: download the dependencies.
+  ansible.builtin.command: pip3.6 install -r requirements.txt
+  args:
+    chdir: /app
+
+- name: copy-service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: copy-service
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup

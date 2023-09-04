@@ -1,2 +1,36 @@
 ---
 # tasks file for user
+- name: Install NodeJS
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: Install app-setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: download the dependencies.
+  ansible.builtin.command: npm install 
+  args:
+    chdir: /app
+
+- name: copy service
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: copy-service
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup
+
+- name: Load Schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: load-mongo-schema
+
+- name: Load Schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: restart-service

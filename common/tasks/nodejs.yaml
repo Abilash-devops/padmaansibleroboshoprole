@@ -1,0 +1,7 @@
+- name: This task is to NodeJS repos
+  ansible.builtin.shell: "curl -sL https://rpm.nodesource.com/setup_lts.x | bash"
+
+- name: This task is to Install NodeJS
+  ansible.builtin.yum:
+    name: nodejs
+    state: installed

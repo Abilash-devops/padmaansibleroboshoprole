@@ -1,0 +1,5 @@
+- name: This playbook is to install complete roboshop project via ansible roles 
+  hosts: "{{component}}"
+  become: true 
+  roles:
+  - "{{component}}"

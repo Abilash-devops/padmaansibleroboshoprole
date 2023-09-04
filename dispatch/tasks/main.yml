@@ -1,2 +1,32 @@
 ---
 # tasks file for dispatch
+- name: Install golang
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: golang
+
+- name: Install app-setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: download the dependencies
+  ansible.builtin.command: "{{item}}"
+  loop:
+  - go mod init dispatch
+  - go get
+  - go build
+  args:
+    chdir: /app
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: copy-service
+
+- name: Start application
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup
+
+
